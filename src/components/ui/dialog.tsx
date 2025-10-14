@@ -7,7 +7,7 @@ const DialogTrigger = DialogPrimitive.Trigger;
 const DialogClose = DialogPrimitive.Close;
 
 const DialogPortal = ({ className, ...props }: DialogPrimitive.DialogPortalProps & { className?: string }) => (
-  <DialogPrimitive.Portal className={className} {...props} />
+  <DialogPrimitive.Portal {...props} />
 );
 DialogPortal.displayName = DialogPrimitive.Portal.displayName;
 
@@ -77,3 +77,5 @@ const DialogDescription = React.forwardRef<HTMLParagraphElement, React.Component
 DialogDescription.displayName = DialogPrimitive.Description.displayName;
 
 export { Dialog, DialogTrigger, DialogClose, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription };
+
+
