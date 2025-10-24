@@ -220,7 +220,7 @@ export default function GridBackgroundDemo() {
           </Dialog>
           {/* Диалог, открывающийся при клике на карточку хелпера, с той же формой */}
           <Dialog open={helperFormOpen} onOpenChange={setHelperFormOpen}>
-            <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92vw] sm:w-[560px] h-[72vh] sm:h-[520px] pt-3 sm:pt-4 pb-5 sm:pb-6 border-none overflow-hidden">
+            <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92vw] sm:w-[560px] h-[78vh] sm:h-[560px] pt-3 sm:pt-4 pb-5 sm:pb-6 border-none overflow-hidden">
               {/* Кнопка назад слева сверху */}
               <button
                 aria-label="Назад"
@@ -242,21 +242,21 @@ export default function GridBackgroundDemo() {
                   <div className="text-base sm:text-lg font-bold text-foreground">{selectedHelper.name}</div>
                 </div>
               )}
-              {/* Форма */}
-              <div className="mt-4">
+              {/* Форма заявки под выбранного хелпера (прокручиваемая) */}
+              <div className="mt-4 h-full overflow-y-auto min-h-0 pr-1">
                 <div className="rounded-xl border border-border bg-white/70 dark:bg-white/10 backdrop-blur p-3 sm:p-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                     <div>
                       <label className="block text-xs font-semibold text-foreground/80 mb-1">Курс</label>
-                      <input type="text" placeholder="Напр. 1 курс" className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm" />
+                      <input type="text" className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm" />
                     </div>
                     <div>
                       <label className="block text-xs font-semibold text-foreground/80 mb-1">Направление</label>
-                      <input type="text" placeholder="ФИТ, Экономика..." className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm" />
+                      <input type="text" className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm" />
                     </div>
                     <div>
                       <label className="block text-xs font-semibold text-foreground/80 mb-1">Предмет</label>
-                      <input type="text" placeholder="Алгебра, Python..." className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm" />
+                      <input type="text" className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm" />
                     </div>
                     <div>
                       <label className="block text-xs font-semibold text-foreground/80 mb-1">Услуга</label>
@@ -287,7 +287,7 @@ export default function GridBackgroundDemo() {
                         </button>
                       </div>
                     </div>
-                    <textarea rows={3} placeholder="Опишите условия задачи"
+                    <textarea rows={3}
                       className="mt-1 w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm"
                     />
                     {attachedFile && (
@@ -297,106 +297,10 @@ export default function GridBackgroundDemo() {
                   <div className="mt-3 sm:mt-4">
                     <label className="block text-xs font-semibold text-foreground/80 mb-1">Сумма</label>
                     <div className="relative">
-                      <input type="text" inputMode="decimal" placeholder="Напр. 1500"
+                      <input type="text" inputMode="decimal"
                         className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 pr-10 text-sm"
                       />
                       <span className="absolute right-3 top-1/2 -translate-y-1/2 text-foreground/70 text-sm">₽</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </DialogContent>
-          </Dialog>
-          {/* Диалог анкеты для кнопки "Стать Хелпером" */}
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button variant="outline" size="lg" className="h-12 w-64 sm:h-12 sm:w-72 text-xl font-bold rounded-full mx-auto">Стать Хелпером</Button>
-            </DialogTrigger>
-            <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92vw] sm:w-[560px] min-h-[360px] sm:min-h-[420px] pt-3 sm:pt-4 pb-5 sm:pb-6 border-none overflow-visible">
-              {/* Кнопка закрытия */}
-              <DialogClose asChild>
-                <button aria-label="Закрыть" className="absolute top-3 right-3 z-50 inline-flex items-center justify-center rounded-md p-2 text-foreground/70 hover:text-foreground hover:bg-muted transition">
-                  <X className="w-4 h-4" />
-                </button>
-              </DialogClose>
-              {/* Форма анкеты хелпера */}
-              <div className="mt-5 sm:mt-6">
-                <div className="rounded-xl border border-border bg-white/70 dark:bg-white/10 backdrop-blur p-3 sm:p-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                    <div>
-                      <label className="block text-xs font-semibold text-foreground/80 mb-1">Имя</label>
-                      <input type="text" className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm" />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-foreground/80 mb-1">Фамилия</label>
-                      <input type="text" className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm" />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-foreground/80 mb-1">Курс</label>
-                      <input type="text" className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm" />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-foreground/80 mb-1">Направление</label>
-                      <input type="text" className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm" />
-                    </div>
-                  </div>
-                  <div className="mt-3 sm:mt-4">
-                    <label className="block text-xs font-semibold text-foreground/80 mb-1">Основные предметы (в чём хорош)</label>
-                    <textarea rows={3}
-                      className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm"
-                    />
-                  </div>
-                  <div className="mt-3 sm:mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                    <div>
-                      <label className="block text-xs font-semibold text-foreground/80 mb-1">Фото аватара (необязательно)</label>
-                      <div className="flex items-center gap-2">
-                        <input
-                          ref={avatarRef}
-                          type="file"
-                          accept="image/*"
-                          className="hidden"
-                          onChange={(e) => setAvatarFile(e.target.files?.[0] ?? null)}
-                        />
-                        <button
-                          type="button"
-                          onClick={() => avatarRef.current?.click()}
-                          className="inline-flex items-center gap-1.5 rounded-md border border-border bg-white/70 dark:bg-white/5 px-2.5 py-1.5 text-xs font-semibold text-foreground hover:bg-muted transition"
-                        >
-                          <ImageIcon className="w-4 h-4" /> Фото
-                        </button>
-                      </div>
-                      {avatarFile && (
-                        <div className="mt-2">
-                          <Image src={URL.createObjectURL(avatarFile)} alt="Аватар" width={48} height={48} unoptimized className="h-12 w-12 rounded-full border border-border object-cover" />
-                        </div>
-                      )}
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-foreground/80 mb-1">Фото зачётки (последние две сессии)</label>
-                      <div className="flex items-center gap-2">
-                        <input
-                          ref={gradeRef}
-                          type="file"
-                          accept="image/*"
-                          multiple
-                          className="hidden"
-                          onChange={(e) => setGradebookFiles(Array.from(e.target.files ?? []))}
-                        />
-                        <button
-                          type="button"
-                          onClick={() => gradeRef.current?.click()}
-                          className="inline-flex items-center gap-1.5 rounded-md border border-border bg-white/70 dark:bg-white/5 px-2.5 py-1.5 text-xs font-semibold text-foreground hover:bg-muted transition"
-                        >
-                          <ImageIcon className="w-4 h-4" /> Фото
-                        </button>
-                      </div>
-                      {gradebookFiles.length > 0 && (
-                        <div className="mt-2 flex items-center gap-2">
-                          {gradebookFiles.slice(0, 2).map((f, idx) => (
-                            <Image key={idx} src={URL.createObjectURL(f)} alt={`Зачётка ${idx + 1}`} width={48} height={48} unoptimized className="h-12 w-12 rounded-md border border-border object-cover" />
-                          ))}
-                        </div>
-                      )}
                     </div>
                   </div>
                 </div>
