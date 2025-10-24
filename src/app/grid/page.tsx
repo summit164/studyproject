@@ -303,20 +303,11 @@ export default function GridBackgroundDemo() {
                     {selectedHelper && (
                       <div className="rounded-xl border border-border bg-white/70 dark:bg-white/10 backdrop-blur p-3 sm:p-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-14 h-14 sm:w-16 sm:h-16 shrink-0 rounded-full bg-muted/50 border border-border" />
-                          <div className="flex-1">
-                            <div className="text-lg sm:text-xl font-semibold leading-tight">{selectedHelper.name}</div>
-                            <div className="text-sm text-foreground/70 mt-0.5">{selectedHelper.course}</div>
-                            <div className="mt-2 flex flex-wrap gap-1.5">
-                              {selectedHelper.subjects.map((s) => (
-                                <span key={s} className="px-2 py-0.5 rounded-full bg-muted/70 text-foreground/80 text-xs">{s}</span>
-                              ))}
-                            </div>
-                          </div>
-                          <div className="shrink-0 inline-flex items-center px-3 py-1 rounded-full bg-muted text-foreground text-sm font-semibold">
-                            {selectedHelper.grade}
-                          </div>
-                        </div>
+                           <div className="w-14 h-14 sm:w-16 sm:h-16 shrink-0 rounded-full bg-muted/50 border border-border" />
+                           <div className="flex-1">
+                             <div className="text-lg sm:text-xl font-semibold leading-tight">{selectedHelper.name}</div>
+                           </div>
+                         </div>
                       </div>
                     )}
                   </div>
