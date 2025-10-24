@@ -94,7 +94,7 @@ export default function GridBackgroundDemo() {
             <DialogTrigger asChild>
               <Button variant="outline" size="lg" className="h-12 w-64 sm:h-12 sm:w-72 text-xl font-bold rounded-full mx-auto">Нужна помощь</Button>
             </DialogTrigger>
-            <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92vw] sm:w-[560px] h-auto max-h-[90vh] sm:max-h-[560px] pt-3 sm:pt-4 pb-5 sm:pb-6 border-none overflow-hidden">
+            <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92vw] sm:w-[560px] h-[90vh] sm:h-[560px] pt-3 sm:pt-4 pb-5 sm:pb-6 border-none overflow-hidden">
               {/* Кнопка закрытия */}
               <DialogClose asChild>
                 <button aria-label="Закрыть" className="absolute top-3 right-3 z-50 inline-flex items-center justify-center rounded-md p-2 text-foreground/70 hover:text-foreground hover:bg-muted transition">
@@ -283,7 +283,7 @@ export default function GridBackgroundDemo() {
 
           {/* Диалог, открывающийся при клике на карточку хелпера, с той же формой */}
           <Dialog open={helperFormOpen} onOpenChange={setHelperFormOpen}>
-            <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92vw] sm:w-[560px] h-auto max-h-[90vh] sm:max-h-[560px] pt-3 sm:pt-4 pb-5 sm:pb-6 border-none overflow-hidden">
+            <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92vw] sm:w-[560px] h-[90vh] sm:h-[560px] pt-3 sm:pt-4 pb-5 sm:pb-6 border-none overflow-hidden">
               {/* Кнопка назад слева сверху */}
               <button
                 aria-label="Назад"
@@ -293,27 +293,93 @@ export default function GridBackgroundDemo() {
                 <ArrowLeft className="w-5 h-5" />
                 <span>Назад</span>
               </button>
-              {/* Информация о выбранном хелпере */}
-              <div className="mx-auto w-[90%] sm:w-[85%] max-w-[420px]">
-                {selectedHelper && (
-                  <div className="rounded-xl border border-border bg-white/70 dark:bg-white/10 backdrop-blur p-3 sm:p-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-14 h-14 sm:w-16 sm:h-16 shrink-0 rounded-full bg-muted/50 border border-border" />
-                      <div className="flex-1">
-                        <div className="text-lg sm:text-xl font-semibold leading-tight">{selectedHelper.name}</div>
-                        <div className="text-sm text-foreground/70 mt-0.5">{selectedHelper.course}</div>
-                        <div className="mt-2 flex flex-wrap gap-1.5">
-                          {selectedHelper.subjects.map((s) => (
-                            <span key={s} className="px-2 py-0.5 rounded-full bg-muted/70 text-foreground/80 text-xs">{s}</span>
-                          ))}
+              {/* Сетка: информация о хелпере сверху, форма ниже со скроллом */}
+              <div className="mt-5 sm:mt-6 grid grid-rows-[auto,1fr] h-full">
+                {/* Информация о выбранном хелпере */}
+                <div className="mx-auto w-[90%] sm:w-[85%] max-w-[420px]">
+                  {selectedHelper && (
+                    <div className="rounded-xl border border-border bg-white/70 dark:bg-white/10 backdrop-blur p-3 sm:p-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-14 h-14 sm:w-16 sm:h-16 shrink-0 rounded-full bg-muted/50 border border-border" />
+                        <div className="flex-1">
+                          <div className="text-lg sm:text-xl font-semibold leading-tight">{selectedHelper.name}</div>
+                          <div className="text-sm text-foreground/70 mt-0.5">{selectedHelper.course}</div>
+                          <div className="mt-2 flex flex-wrap gap-1.5">
+                            {selectedHelper.subjects.map((s) => (
+                              <span key={s} className="px-2 py-0.5 rounded-full bg-muted/70 text-foreground/80 text-xs">{s}</span>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="shrink-0 inline-flex items-center px-3 py-1 rounded-full bg-muted text-foreground text-sm font-semibold">
+                          {selectedHelper.grade}
                         </div>
                       </div>
-                      <div className="shrink-0 inline-flex items-center px-3 py-1 rounded-full bg-muted text-foreground text-sm font-semibold">
-                        {selectedHelper.grade}
+                    </div>
+                  )}
+                </div>
+                {/* Форма быстрой заявки такая же, как на вкладке "Быстрая заявка" */}
+                <div className="mt-3 sm:mt-4 overflow-y-auto min-h-0 pr-1 pb-3 sm:pb-4">
+                  <div className="rounded-xl border border-border bg-white/70 dark:bg-white/10 backdrop-blur p-3 sm:p-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                      <div>
+                        <label className="block text-xs font-semibold text-foreground/80 mb-1">Курс</label>
+                        <input type="text" className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm" />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-foreground/80 mb-1">Направление</label>
+                        <input type="text" className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm" />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-foreground/80 mb-1">Предмет</label>
+                        <input type="text" className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm" />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-foreground/80 mb-1">Услуга</label>
+                        <select className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm">
+                          <option>Решение ДЗ</option>
+                          <option>Контрольная</option>
+                          <option>Консультация</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="mt-3 sm:mt-4">
+                      <div className="flex items-center justify-between">
+                        <label className="text-xs font-semibold text-foreground/80">Условие</label>
+                        <div className="flex items-center gap-2">
+                          <input
+                            ref={fileRef}
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            onChange={(e) => setAttachedFile(e.target.files?.[0] ?? null)}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => fileRef.current?.click()}
+                            className="inline-flex items-center gap-1.5 rounded-md border border-border bg-white/70 dark:bg-white/5 px-2.5 py-1.5 text-xs font-semibold text-foreground hover:bg-muted transition"
+                          >
+                            <ImageIcon className="w-4 h-4" /> Фото
+                          </button>
+                        </div>
+                      </div>
+                      <textarea rows={3}
+                        className="mt-1 w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm"
+                      />
+                      {attachedFile && (
+                        <div className="mt-1 text-xs text-foreground/70">Прикреплено: {attachedFile.name}</div>
+                      )}
+                    </div>
+                    <div className="mt-3 sm:mt-4">
+                      <label className="block text-xs font-semibold text-foreground/80 mb-1">Сумма</label>
+                      <div className="relative">
+                        <input type="text" inputMode="decimal"
+                          className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 pr-10 text-sm"
+                        />
+                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-foreground/70 text-sm">₽</span>
                       </div>
                     </div>
                   </div>
-                )}
+                </div>
               </div>
             </DialogContent>
           </Dialog>
