@@ -7,6 +7,21 @@ import { NavBar } from "@/components/ui/tubelight-navbar";
 import { User, Zap, X, Image as ImageIcon, ArrowLeft } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 
+// Минимальная типизация Telegram WebApp, чтобы избежать explicit any
+type TwaHeaderColor = "bg_color" | "secondary_bg_color" | string;
+interface TwaWebApp {
+  ready: () => void;
+  expand: () => void;
+  setBackgroundColor?: (color: string) => void;
+  setHeaderColor?: (color: TwaHeaderColor) => void;
+}
+
+declare global {
+  interface Window {
+    Telegram?: { WebApp?: TwaWebApp };
+  }
+}
+
 export default function GridBackgroundDemo() {
   const [activeTab, setActiveTab] = useState<string>("Выбрать Хелпера");
   const fileRef = useRef<HTMLInputElement>(null);
@@ -26,13 +41,12 @@ export default function GridBackgroundDemo() {
 
   useEffect(() => {
     try {
-      const wa = (window as any).Telegram?.WebApp;
+      const wa = window.Telegram?.WebApp;
       wa?.ready();
       wa?.expand();
-      // Снизим контраст рамки клиента Telegram, установив фон окна мини‑апа
       wa?.setBackgroundColor?.("#ffffff");
       wa?.setHeaderColor?.("bg_color");
-    } catch (e) {
+    } catch {
       // noop
     }
   }, []);
