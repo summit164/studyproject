@@ -79,10 +79,10 @@ export default function GridBackgroundDemo() {
     <div className="fixed inset-0 flex w-full flex-col items-center justify-center p-0 overflow-hidden">
       <BGPattern variant="grid" mask="none" fill="#000" />
       {/* Заголовок выше центра */}
-      <div className="absolute top-6 sm:top-8 left-1/2 -translate-x-1/2">
+      <div className="absolute top-12 sm:top-8 left-1/2 -translate-x-1/2">
         <TextShimmer
           duration={1.2}
-          className="text-4xl sm:text-6xl font-bold [--base-color:#000] [--base-gradient-color:#000]"
+          className="text-5xl sm:text-6xl font-bold [--base-color:#000] [--base-gradient-color:#000]"
         >
           StudyFlow
         </TextShimmer>
