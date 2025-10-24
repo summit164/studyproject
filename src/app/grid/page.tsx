@@ -94,7 +94,7 @@ export default function GridBackgroundDemo() {
             <DialogTrigger asChild>
               <Button variant="outline" size="lg" className="h-12 w-64 sm:h-12 sm:w-72 text-xl font-bold rounded-full mx-auto">Нужна помощь</Button>
             </DialogTrigger>
-            <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92vw] sm:w-[560px] min-h-[360px] sm:min-h-[420px] pt-3 sm:pt-4 pb-5 sm:pb-6 border-none overflow-visible">
+            <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92vw] sm:w-[560px] h-[72vh] sm:h-[520px] pt-3 sm:pt-4 pb-5 sm:pb-6 border-none overflow-hidden">
               {/* Кнопка закрытия */}
               <DialogClose asChild>
                 <button aria-label="Закрыть" className="absolute top-3 right-3 z-50 inline-flex items-center justify-center rounded-md p-2 text-foreground/70 hover:text-foreground hover:bg-muted transition">
@@ -102,7 +102,7 @@ export default function GridBackgroundDemo() {
                 </button>
               </DialogClose>
               {/* Закрепляем переключалку: верхняя строка сетки, контент — ниже */}
-              <div className="mt-5 sm:mt-6 grid grid-rows-[auto,1fr]">
+              <div className="mt-5 sm:mt-6 grid grid-rows-[auto,1fr] h-full">
                  <NavBar
                    position="relative"
                    className="w-[90%] sm:w-[85%] max-w-[380px] sm:max-w-[420px] mx-auto"
@@ -112,7 +112,7 @@ export default function GridBackgroundDemo() {
                    ]}
                    onChange={(name) => setActiveTab(name)}
                  />
-                 <div className="mt-3 sm:mt-4 overflow-y-auto flex flex-col">
+                 <div className="mt-3 sm:mt-4 overflow-y-auto flex flex-col min-h-0">
                    {activeTab === "Выбрать Хелпера" && (
                      <div className="space-y-3">
                        {helpers.map((h) => (
@@ -220,7 +220,7 @@ export default function GridBackgroundDemo() {
           </Dialog>
           {/* Диалог, открывающийся при клике на карточку хелпера, с той же формой */}
           <Dialog open={helperFormOpen} onOpenChange={setHelperFormOpen}>
-            <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92vw] sm:w-[560px] min-h-[360px] sm:min-h-[420px] pt-3 sm:pt-4 pb-5 sm:pb-6 border-none overflow-visible">
+            <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92vw] sm:w-[560px] h-[72vh] sm:h-[520px] pt-3 sm:pt-4 pb-5 sm:pb-6 border-none overflow-hidden">
               {/* Кнопка назад слева сверху */}
               <button
                 aria-label="Назад"
