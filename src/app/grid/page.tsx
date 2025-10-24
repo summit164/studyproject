@@ -61,7 +61,7 @@ export default function GridBackgroundDemo() {
     },
   ];
   return (
-    <div className="relative flex min-h-dvh w-full flex-col items-center justify-center p-0">
+    <div className="fixed inset-0 flex w-full flex-col items-center justify-center p-0 overflow-hidden">
       <BGPattern variant="grid" mask="none" fill="#000" />
       {/* Заголовок выше центра */}
       <div className="absolute top-6 sm:top-8 left-1/2 -translate-x-1/2">
