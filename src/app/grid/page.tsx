@@ -82,7 +82,7 @@ export default function GridBackgroundDemo() {
       <div className="absolute top-6 sm:top-8 left-1/2 -translate-x-1/2">
         <TextShimmer
           duration={1.2}
-          className="text-3xl sm:text-5xl font-bold [--base-color:#000] [--base-gradient-color:#000]"
+          className="text-4xl sm:text-6xl font-bold [--base-color:#000] [--base-gradient-color:#000]"
         >
           StudyFlow
         </TextShimmer>
@@ -92,7 +92,7 @@ export default function GridBackgroundDemo() {
         <div className="flex flex-col items-center gap-6 w-72 sm:w-80">
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="outline" size="lg" className="h-11 w-56 sm:w-64 text-lg font-bold rounded-full mx-auto">Нужна помощь</Button>
+              <Button variant="outline" size="lg" className="h-12 w-64 sm:h-12 sm:w-72 text-xl font-bold rounded-full mx-auto">Нужна помощь</Button>
             </DialogTrigger>
             <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92vw] sm:w-[560px] min-h-[360px] sm:min-h-[420px] pt-3 sm:pt-4 pb-5 sm:pb-6 border-none overflow-visible">
               {/* Кнопка закрытия */}
@@ -310,7 +310,7 @@ export default function GridBackgroundDemo() {
           {/* Диалог анкеты для кнопки "Стать Хелпером" */}
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="outline" size="lg" className="h-11 w-56 sm:w-64 text-lg font-bold rounded-full mx-auto">Стать Хелпером</Button>
+              <Button variant="outline" size="lg" className="h-12 w-64 sm:h-12 sm:w-72 text-xl font-bold rounded-full mx-auto">Стать Хелпером</Button>
             </DialogTrigger>
             <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92vw] sm:w-[560px] min-h-[360px] sm:min-h-[420px] pt-3 sm:pt-4 pb-5 sm:pb-6 border-none overflow-visible">
               {/* Кнопка закрытия */}
