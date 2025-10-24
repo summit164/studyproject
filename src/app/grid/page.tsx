@@ -301,14 +301,7 @@ export default function GridBackgroundDemo() {
                   {/* Информация о выбранном хелпере */}
                   <div className="mx-auto w-[90%] sm:w-[85%] max-w-[420px]">
                     {selectedHelper && (
-                      <div className="rounded-xl border border-border bg-white/70 dark:bg-white/10 backdrop-blur p-3 sm:p-4">
-                        <div className="flex items-center gap-3">
-                           <div className="w-14 h-14 sm:w-16 sm:h-16 shrink-0 rounded-full bg-muted/50 border border-border" />
-                           <div className="flex-1">
-                             <div className="text-lg sm:text-xl font-semibold leading-tight">{selectedHelper.name}</div>
-                           </div>
-                         </div>
-                      </div>
+                      <div className="text-lg sm:text-xl font-semibold leading-tight">{selectedHelper.name}</div>
                     )}
                   </div>
                   {/* Форма быстрой заявки такая же, как на вкладке "Быстрая заявка" */}
