@@ -29,6 +29,9 @@ export default function GridBackgroundDemo() {
       const wa = (window as any).Telegram?.WebApp;
       wa?.ready();
       wa?.expand();
+      // Снизим контраст рамки клиента Telegram, установив фон окна мини‑апа
+      wa?.setBackgroundColor?.("#ffffff");
+      wa?.setHeaderColor?.("bg_color");
     } catch (e) {
       // noop
     }
@@ -58,7 +61,7 @@ export default function GridBackgroundDemo() {
     },
   ];
   return (
-    <div className="relative flex min-h-dvh w-full flex-col items-center justify-center p-4">
+    <div className="relative flex min-h-dvh w-full flex-col items-center justify-center p-0">
       <BGPattern variant="grid" mask="none" fill="#000" />
       {/* Заголовок выше центра */}
       <div className="absolute top-6 sm:top-8 left-1/2 -translate-x-1/2">
