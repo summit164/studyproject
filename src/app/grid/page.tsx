@@ -6,6 +6,7 @@ import { Dialog, DialogContent, DialogTrigger, DialogClose } from "@/components/
 import { NavBar } from "@/components/ui/tubelight-navbar";
 import { User, Zap, X, Image as ImageIcon, ArrowLeft } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
 
 // Минимальная типизация Telegram WebApp, чтобы избежать explicit any
 type TwaHeaderColor = "bg_color" | "secondary_bg_color" | string;
@@ -366,7 +367,7 @@ export default function GridBackgroundDemo() {
                       </div>
                       {avatarFile && (
                         <div className="mt-2">
-                          <img src={URL.createObjectURL(avatarFile)} alt="Аватар" className="h-12 w-12 rounded-full border border-border object-cover" />
+                          <Image src={URL.createObjectURL(avatarFile)} alt="Аватар" width={48} height={48} unoptimized className="h-12 w-12 rounded-full border border-border object-cover" />
                         </div>
                       )}
                     </div>
@@ -392,7 +393,7 @@ export default function GridBackgroundDemo() {
                       {gradebookFiles.length > 0 && (
                         <div className="mt-2 flex items-center gap-2">
                           {gradebookFiles.slice(0, 2).map((f, idx) => (
-                            <img key={idx} src={URL.createObjectURL(f)} alt={`Зачётка ${idx + 1}`} className="h-12 w-12 rounded-md border border-border object-cover" />
+                            <Image key={idx} src={URL.createObjectURL(f)} alt={`Зачётка ${idx + 1}`} width={48} height={48} unoptimized className="h-12 w-12 rounded-md border border-border object-cover" />
                           ))}
                         </div>
                       )}
