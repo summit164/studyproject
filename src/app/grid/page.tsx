@@ -113,7 +113,7 @@ export default function GridBackgroundDemo() {
                    onChange={(name) => setActiveTab(name)}
                  />
                  <div className="mt-3 sm:mt-4 overflow-y-auto min-h-0 pr-1 pb-3 sm:pb-4 flex flex-col">
-                   {activeTab === "Выбрать Хелпера" && (
+                   {activeTab === "Выбрать Хелпера" ? (
                      <div className="space-y-3">
                        {helpers.map((h) => (
                          <div
@@ -149,9 +149,9 @@ export default function GridBackgroundDemo() {
                          </div>
                        ))}
                      </div>
-                   )}
-                   {activeTab === "Быстрая заявка" && (
-                      <div>
+                   ) : null}
+                   {activeTab === "Быстрая заявка" ? (
+                       <div>
                        <div className="rounded-xl border border-border bg-white/70 dark:bg-white/10 backdrop-blur p-3 sm:p-4">
                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                            <div>
@@ -213,7 +213,7 @@ export default function GridBackgroundDemo() {
                          </div>
                        </div>
                      </div>
-                   )}
+                   ) : null}
                  </div>
                </div>
           </DialogContent>
@@ -314,7 +314,6 @@ export default function GridBackgroundDemo() {
                     </div>
                   </div>
                 )}
-              </div>
               </div>
             </DialogContent>
           </Dialog>
