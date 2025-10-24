@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger, DialogClose } from "@/components/ui/dialog";
 import { NavBar } from "@/components/ui/tubelight-navbar";
 import { User, Zap, X, Image as ImageIcon, ArrowLeft } from "lucide-react";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 export default function GridBackgroundDemo() {
   const [activeTab, setActiveTab] = useState<string>("Выбрать Хелпера");
@@ -23,6 +23,16 @@ export default function GridBackgroundDemo() {
     grade: string;
     photoUrl: string;
   } | null>(null);
+
+  useEffect(() => {
+    try {
+      const wa = (window as any).Telegram?.WebApp;
+      wa?.ready();
+      wa?.expand();
+    } catch (e) {
+      // noop
+    }
+  }, []);
 
   const helpers = [
     {
@@ -48,8 +58,8 @@ export default function GridBackgroundDemo() {
     },
   ];
   return (
-    <div className="relative flex min-h-[70vh] sm:aspect-video flex-col items-center justify-center rounded-2xl border-2 p-4 sm:p-8">
-      <BGPattern variant="grid" mask="fade-edges" />
+    <div className="relative flex min-h-dvh w-full flex-col items-center justify-center p-4">
+      <BGPattern variant="grid" mask="none" fill="#000" />
       {/* Заголовок выше центра */}
       <div className="absolute top-6 sm:top-8 left-1/2 -translate-x-1/2">
         <TextShimmer
