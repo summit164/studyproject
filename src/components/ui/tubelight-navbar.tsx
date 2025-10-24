@@ -42,14 +42,14 @@ export function NavBar({ items, className, position = "fixed", onChange }: NavBa
                   onChange?.(item.name)
                 }}
                 className={cn(
-                  "relative cursor-pointer text-sm font-semibold px-2 sm:px-3 py-1.5 rounded-full transition-colors flex-1 text-center",
+                  // добавляем inline-flex и центрирование для симметрии, оставляя равную ширину
+                  "relative cursor-pointer text-sm font-semibold px-2 sm:px-3 py-1.5 rounded-full transition-colors flex-1 inline-flex items-center justify-center gap-1.5 text-center",
                   isActive ? "text-foreground" : "text-foreground/80 hover:text-primary",
                 )}
               >
-                <span className="hidden md:inline">{item.name}</span>
-                <span className="md:hidden">
-                  <Icon size={16} strokeWidth={2.5} />
-                </span>
+                {/* Показываем текст всегда; иконку — на sm+ для аккуратности */}
+                <Icon size={16} strokeWidth={2.5} className="hidden sm:inline" />
+                <span>{item.name}</span>
                 {isActive && (
                   <motion.div
                     layoutId="lamp"
