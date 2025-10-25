@@ -112,7 +112,7 @@ export default function GridBackgroundDemo() {
                    ]}
                    onChange={(name) => setActiveTab(name)}
                  />
-                 <div className="mt-3 sm:mt-4 overflow-y-auto min-h-0 pr-1 pb-3 sm:pb-4 flex flex-col" style={{ WebkitOverflowScrolling: 'touch' }}>
+                 <div className="mt-3 sm:mt-4 overflow-y-auto min-h-0 pr-1 pb-3 sm:pb-4" style={{ WebkitOverflowScrolling: 'touch' }}>
                    {activeTab === "Выбрать Хелпера" ? (
                      <div className="space-y-3">
                        {helpers.map((h) => (
@@ -299,9 +299,9 @@ export default function GridBackgroundDemo() {
                 {/* Единый скролл содержимого карточки хелпера */}
                 <div className="h-full overflow-y-auto min-h-0 pr-1 pb-3 sm:pb-4" style={{ WebkitOverflowScrolling: 'touch' }}>
                   {/* Информация о выбранном хелпере */}
-                  <div className="mx-auto w-[90%] sm:w-[85%] max-w-[420px]">
+                  <div className="mx-auto w-[90%] sm:w-[85%] max-w-[420px] mt-3 sm:mt-4">
                     {selectedHelper && (
-                      <div className="text-lg sm:text-xl font-semibold leading-tight">{selectedHelper.name}</div>
+                      <div className="text-center text-lg sm:text-xl font-semibold leading-tight">{selectedHelper.name}</div>
                     )}
                   </div>
                   {/* Форма быстрой заявки такая же, как на вкладке "Быстрая заявка" */}
