@@ -40,6 +40,16 @@ export default function GridBackgroundDemo() {
     photoUrl: string;
   } | null>(null);
 
+  // Исходная форма «Быстрая заявка»: ровно как на скриншоте
+  const [course, setCourse] = useState("");
+  const [direction, setDirection] = useState("");
+  const [subject, setSubject] = useState("");
+  const [service, setService] = useState("Решение ДЗ");
+  const [condition, setCondition] = useState("");
+  const [amount, setAmount] = useState("");
+  const [sending, setSending] = useState(false);
+  const [sendResult, setSendResult] = useState<null | { ok: boolean; forwarded?: boolean; error?: string }>(null);
+
   useEffect(() => {
     try {
       const wa = window.Telegram?.WebApp;
@@ -75,6 +85,42 @@ export default function GridBackgroundDemo() {
       photoUrl: "",
     },
   ];
+
+  async function submitQuickForm() {
+    setSendResult(null);
+    setSending(true);
+    try {
+      const composedMessage = [
+        course ? `Курс: ${course}` : null,
+        direction ? `Направление: ${direction}` : null,
+        subject ? `Предмет: ${subject}` : null,
+        service ? `Услуга: ${service}` : null,
+        condition ? `Условие: ${condition}` : null,
+        amount ? `Сумма: ${amount} ₽` : null,
+        attachedFile ? `Прикреплено: ${attachedFile.name}` : null,
+      ].filter(Boolean).join("\n");
+
+      const res = await fetch("http://localhost:4004/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          helperId: selectedHelper?.name || "—",
+          studentName: "—",
+          contact: "—",
+          subject,
+          course,
+          message: composedMessage,
+        }),
+      });
+      const data = await res.json();
+      setSendResult({ ok: res.ok, forwarded: data?.forwarded, error: data?.error });
+    } catch (err) {
+      setSendResult({ ok: false, error: "Не удалось отправить заявку" });
+    } finally {
+      setSending(false);
+    }
+  }
+
   return (
     <div className="fixed inset-0 flex w-full flex-col items-center justify-center p-0 overflow-hidden">
       <BGPattern variant="grid" mask="none" fill="#000" />
@@ -87,6 +133,7 @@ export default function GridBackgroundDemo() {
           StudyFlow
         </TextShimmer>
       </div>
+
       {/* Две кнопки по центру вертикально */}
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="flex flex-col items-center gap-6 w-72 sm:w-80">
@@ -101,7 +148,7 @@ export default function GridBackgroundDemo() {
                   <X className="w-4 h-4" />
                 </button>
               </DialogClose>
-              {/* Закрепляем переключалку: верхняя строка сетки, контент — ниже */}
+              {/* Навбар вкладок */}
               <div className="mt-5 sm:mt-6 grid grid-rows-[auto,1fr] h-full">
                  <NavBar
                    position="relative"
@@ -121,8 +168,8 @@ export default function GridBackgroundDemo() {
                            className="flex items-center justify-between flex-nowrap gap-3 sm:gap-4 rounded-xl border border-border bg-white/50 dark:bg-white/10 backdrop-blur p-3 cursor-pointer hover:bg-white/70 dark:hover:bg-white/15 transition"
                            role="button"
                            onClick={() => {
-                             setSelectedHelper(h)
-                             setHelperFormOpen(true)
+                             setSelectedHelper(h);
+                             setHelperFormOpen(true);
                            }}
                          >
                            <div className="w-14 h-14 sm:w-16 sm:h-16 shrink-0 rounded-full bg-muted/50 border border-border" aria-label="Фото">
@@ -150,25 +197,26 @@ export default function GridBackgroundDemo() {
                        ))}
                      </div>
                    ) : null}
+
                    {activeTab === "Быстрая заявка" ? (
-                       <div>
+                     <div>
                        <div className="rounded-xl border border-border bg-white/70 dark:bg-white/10 backdrop-blur p-3 sm:p-4">
                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                            <div>
                              <label className="block text-xs font-semibold text-foreground/80 mb-1">Курс</label>
-                             <input type="text" className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm" />
+                             <input value={course} onChange={(e)=>setCourse(e.target.value)} type="text" className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm" />
                            </div>
                            <div>
                              <label className="block text-xs font-semibold text-foreground/80 mb-1">Направление</label>
-                             <input type="text" className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm" />
+                             <input value={direction} onChange={(e)=>setDirection(e.target.value)} type="text" className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm" />
                            </div>
                            <div>
                              <label className="block text-xs font-semibold text-foreground/80 mb-1">Предмет</label>
-                             <input type="text" className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm" />
+                             <input value={subject} onChange={(e)=>setSubject(e.target.value)} type="text" className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm" />
                            </div>
                            <div>
                              <label className="block text-xs font-semibold text-foreground/80 mb-1">Услуга</label>
-                             <select className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm">
+                             <select value={service} onChange={(e)=>setService(e.target.value)} className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm">
                                <option>Решение ДЗ</option>
                                <option>Контрольная</option>
                                <option>Консультация</option>
@@ -196,6 +244,8 @@ export default function GridBackgroundDemo() {
                              </div>
                            </div>
                            <textarea rows={3}
+                             value={condition}
+                             onChange={(e)=>setCondition(e.target.value)}
                              className="mt-1 w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm"
                            />
                            {attachedFile && (
@@ -205,18 +255,38 @@ export default function GridBackgroundDemo() {
                          <div className="mt-3 sm:mt-4">
                            <label className="block text-xs font-semibold text-foreground/80">Сумма</label>
                            <div className="relative">
-                             <input type="text" inputMode="decimal"
+                             <input value={amount} onChange={(e)=>setAmount(e.target.value)} type="text" inputMode="decimal"
                                className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 pr-10 text-sm"
                              />
                              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-foreground/70 text-sm">₽</span>
                            </div>
                          </div>
+                         <div className="mt-3 sm:mt-4">
+                           <Button
+                             onClick={submitQuickForm}
+                             disabled={sending}
+                             variant="outline"
+                             size="lg"
+                             className="h-10 w-full sm:w-auto px-4 font-bold"
+                           >
+                             {sending ? "Отправка..." : "Оформить заявку"}
+                           </Button>
+                           {sendResult && (
+                             <div className="mt-2 text-sm">
+                               {sendResult.ok ? (
+                                 <span className="text-green-600">Заявка отправлена{sendResult.forwarded ? " и доставлена в группу" : ", но Telegram не настроен"}</span>
+                               ) : (
+                                 <span className="text-red-600">Ошибка: {sendResult.error || "проверьте сервер"}</span>
+                               )}
+                             </div>
+                           )}
+                         </div>
                        </div>
                      </div>
                    ) : null}
                  </div>
-               </div>
-          </DialogContent>
+              </div>
+            </DialogContent>
           </Dialog>
 
           <Dialog>
@@ -282,10 +352,10 @@ export default function GridBackgroundDemo() {
             </DialogContent>
           </Dialog>
 
-          {/* Диалог, открывающийся при клике на карточку хелпера, с той же формой */}
+          {/* Диалог карточки хелпера с той же исходной формой и отправкой */}
           <Dialog open={helperFormOpen} onOpenChange={setHelperFormOpen}>
             <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92vw] sm:w-[560px] h-[90vh] sm:h-[560px] pt-3 sm:pt-4 pb-5 sm:pb-6 border-none overflow-hidden">
-              {/* Кнопка назад слева сверху */}
+              {/* Кнопка назад */}
               <button
                 aria-label="Назад"
                 className="absolute top-3 left-3 z-10 inline-flex items-center gap-1.5 justify-center rounded-md px-2.5 py-1.5 text-sm font-semibold text-foreground/80 hover:text-foreground hover:bg-muted transition"
@@ -294,35 +364,31 @@ export default function GridBackgroundDemo() {
                 <ArrowLeft className="w-5 h-5" />
                 <span>Назад</span>
               </button>
-              {/* Сетка: информация о хелпере сверху, форма ниже со скроллом */}
               <div className="mt-5 sm:mt-6 grid grid-rows-[auto,1fr] h-full">
-                {/* Единый скролл содержимого карточки хелпера */}
                 <div className="h-full overflow-y-auto min-h-0 pr-1 pb-3 sm:pb-4" style={{ WebkitOverflowScrolling: 'touch' }}>
-                  {/* Информация о выбранном хелпере */}
                   <div className="mx-auto w-[90%] sm:w-[85%] max-w-[420px] mt-3 sm:mt-4">
                     {selectedHelper && (
                       <div className="text-center text-lg sm:text-xl font-semibold leading-tight">{selectedHelper.name}</div>
                     )}
                   </div>
-                  {/* Форма быстрой заявки такая же, как на вкладке "Быстрая заявка" */}
                   <div className="mt-3 sm:mt-4">
                     <div className="rounded-xl border border-border bg-white/70 dark:bg-white/10 backdrop-blur p-3 sm:p-4">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                         <div>
                           <label className="block text-xs font-semibold text-foreground/80 mb-1">Курс</label>
-                          <input type="text" className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm" />
+                          <input value={course} onChange={(e)=>setCourse(e.target.value)} type="text" className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm" />
                         </div>
                         <div>
                           <label className="block text-xs font-semibold text-foreground/80 mb-1">Направление</label>
-                          <input type="text" className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm" />
+                          <input value={direction} onChange={(e)=>setDirection(e.target.value)} type="text" className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm" />
                         </div>
                         <div>
                           <label className="block text-xs font-semibold text-foreground/80 mb-1">Предмет</label>
-                          <input type="text" className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm" />
+                          <input value={subject} onChange={(e)=>setSubject(e.target.value)} type="text" className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm" />
                         </div>
                         <div>
                           <label className="block text-xs font-semibold text-foreground/80 mb-1">Услуга</label>
-                          <select className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm">
+                          <select value={service} onChange={(e)=>setService(e.target.value)} className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm">
                             <option>Решение ДЗ</option>
                             <option>Контрольная</option>
                             <option>Консультация</option>
@@ -350,6 +416,8 @@ export default function GridBackgroundDemo() {
                           </div>
                         </div>
                         <textarea rows={3}
+                          value={condition}
+                          onChange={(e)=>setCondition(e.target.value)}
                           className="mt-1 w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm"
                         />
                         {attachedFile && (
@@ -359,11 +427,31 @@ export default function GridBackgroundDemo() {
                       <div className="mt-3 sm:mt-4">
                         <label className="block text-xs font-semibold text-foreground/80">Сумма</label>
                         <div className="relative">
-                          <input type="text" inputMode="decimal"
-                            className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 text-sm"
+                          <input value={amount} onChange={(e)=>setAmount(e.target.value)} type="text" inputMode="decimal"
+                            className="w-full rounded-lg border border-border bg-white/80 dark:bg-white/5 px-3 py-2 pr-10 text-sm"
                           />
                           <span className="absolute right-3 top-1/2 -translate-y-1/2 text-foreground/70 text-sm">₽</span>
                         </div>
+                      </div>
+                      <div className="mt-3 sm:mt-4">
+                        <Button
+                          onClick={submitQuickForm}
+                          disabled={sending}
+                          variant="outline"
+                          size="lg"
+                          className="h-10 w-full sm:w-auto px-4 font-bold"
+                        >
+                          {sending ? "Отправка..." : "Оформить заявку"}
+                        </Button>
+                        {sendResult && (
+                          <div className="mt-2 text-sm">
+                            {sendResult.ok ? (
+                              <span className="text-green-600">Заявка отправлена{sendResult.forwarded ? " и доставлена в группу" : ", но Telegram не настроен"}</span>
+                            ) : (
+                              <span className="text-red-600">Ошибка: {sendResult.error || "проверьте сервер"}</span>
+                            )}
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
