@@ -23,7 +23,7 @@ router.post('/', async (req, res) => {
   // Сохраняем заявку в БД
   let orderIdInfo;
   try {
-    orderIdInfo = insertOrder({ helperId, studentName, contact, subject, grade, course, message, forwarded: false });
+    orderIdInfo = await insertOrder({ helperId, studentName, contact, subject, grade, course, message, forwarded: false });
   } catch (err) {
     console.error('DB insert failed:', err);
     return res.status(500).json({ error: 'db_insert_failed' });
@@ -61,7 +61,7 @@ router.post('/', async (req, res) => {
   try {
     await api.sendMessage(groupId, text, { parse_mode: 'HTML' });
     // помечаем forwarded в БД
-    try { markForwarded(order.id, true); } catch (e) { console.warn('DB markForwarded failed:', e); }
+    try { await markForwarded(order.id, true); } catch (e) { console.warn('DB markForwarded failed:', e); }
     return res.status(201).json({ status: 'created', order, forwarded: true });
   } catch (err) {
     console.error('Failed to send to Telegram:', err?.message || err);
@@ -70,11 +70,11 @@ router.post('/', async (req, res) => {
 });
 
 // Получить список заявок
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   const limit = Number(req.query.limit) || 100;
   const offset = Number(req.query.offset) || 0;
   try {
-    const orders = listOrders(limit, offset);
+    const orders = await listOrders(limit, offset);
     res.json({ orders, limit, offset });
   } catch (err) {
     console.error('DB list failed:', err);
@@ -83,11 +83,11 @@ router.get('/', (req, res) => {
 });
 
 // Получить заявку по id
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
   const id = Number(req.params.id);
   if (!id) return res.status(400).json({ error: 'invalid_id' });
   try {
-    const order = getOrder(id);
+    const order = await getOrder(id);
     if (!order) return res.status(404).json({ error: 'not_found' });
     res.json({ order });
   } catch (err) {
